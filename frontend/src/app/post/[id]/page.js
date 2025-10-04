@@ -1,19 +1,43 @@
-export default async function PostDetail({ params }) {
-  const param = await params;
+'use client';
+
+import Navbar from '@/components/navbar';
+import { use, useEffect, useState } from 'react';
+import axios from 'axios';
+
+export default function PostDetail({ params }) {
+  const [isLogin, setIsLogin] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [ctn, setCtn] = useState('');
+  const { id } = use(params);
+
+  useEffect(() => {
+    setMounted(true);
+
+    const token = sessionStorage.getItem('token');
+    if (token) setIsLogin(true);
+    const fecthData = async () => {
+      const res = await axios.get(`http://localhost:1101/posts/${id}`);
+
+      if (res.status == 200) {
+        setCtn(res.data);
+      }
+    };
+
+    fecthData();
+  }, [id]);
+
+  if (!mounted) return null;
+
   return (
     <div className="bg-yellow-100 min-h-screen flex flex-col items-center justify-center p-10">
+      {isLogin && <Navbar />}
       <h1 className="text-4xl font-extrabold text-black mb-10 border-4 border-black px-6 py-3 bg-pink-300 shadow-[6px_6px_0px_#000]">
-        Detail Postingan {param.id}
+        Detail Postingan
       </h1>
 
       <div className="bg-white border-4 border-black rounded-lg p-6 shadow-[6px_6px_0px_#000] transition-transform max-w-3xl w-full">
-        <h2 className="text-2xl font-extrabold text-black">
-          Judul Post {param.id}
-        </h2>
-        <p className="text-gray-800 mt-3">
-          Ini adalah konten detail untuk post dengan ID {param.id}. Kamu bisa
-          menambahkan lebih banyak informasi di sini sesuai kebutuhan.
-        </p>
+        <h2 className="text-2xl font-extrabold text-black">{ctn.title}</h2>
+        <p className="text-gray-800 mt-3">{ctn.content}</p>
       </div>
     </div>
   );

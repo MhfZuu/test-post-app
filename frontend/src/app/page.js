@@ -20,8 +20,8 @@ export default function Home() {
       });
 
       if (res.status === 200) {
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('author_id', res.data.id);
+        sessionStorage.setItem('token', res.data.token);
+        sessionStorage.setItem('author_id', res.data.id);
         router.push('/post');
       }
     } catch (err) {
@@ -61,7 +61,6 @@ export default function Home() {
             />
           </div>
 
-          {/* Menampilkan pesan error jika ada */}
           {error && <p className="text-red-600 font-bold">{error}</p>}
 
           <button
