@@ -19,7 +19,7 @@ export default function RegisterPage() {
     setSuccess('');
 
     try {
-      const res = await axios.post('http://localhost:1101/register', {
+      const res = await axios.post('http://localhost:1101/api/register', {
         username,
         email,
         password,

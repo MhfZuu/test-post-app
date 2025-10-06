@@ -16,9 +16,17 @@ const ProfilPage = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     const author_id = sessionStorage.getItem('author_id');
+    console.log('Author ID from sessionStorage:', author_id);
     const getAuthorDetails = async () => {
       try {
-        const user = await axios.get(`http://localhost:1101/user/${author_id}`);
+        const user = await axios.get(
+          `http://localhost:1101/api/user/${author_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (user.status === 200) {
           setUser(user.data);
@@ -29,12 +37,12 @@ const ProfilPage = () => {
       }
     };
 
-    getAuthorDetails();
     if (!token) {
-      router.push('/');
+      return router.push('/');
     } else {
       setIsAuthenticated(true);
     }
+    getAuthorDetails();
   }, [router]);
 
   const handleSubmit = async (e) => {
@@ -55,11 +63,10 @@ const ProfilPage = () => {
 
     try {
       const res = await axios.post(
-        'http://localhost:1101/posts',
+        'http://localhost:1101/api/posts',
         {
           title: title,
           content: content,
-          author_id: parseInt(author_id, 10),
         },
         {
           headers: {

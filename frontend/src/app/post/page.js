@@ -17,7 +17,7 @@ export default function PostAll() {
 
     const fetchPost = async () => {
       try {
-        const response = await axios.get('http://localhost:1101/posts');
+        const response = await axios.get('http://localhost:1101/api/posts');
         setCtn(response.data);
         console.log(response.data);
       } catch (error) {

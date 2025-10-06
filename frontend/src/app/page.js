@@ -14,14 +14,14 @@ export default function Home() {
     setError('');
 
     try {
-      const res = await axios.post('http://localhost:1101/login', {
+      const res = await axios.post('http://localhost:1101/api/login', {
         username,
         password,
       });
 
       if (res.status === 200) {
         sessionStorage.setItem('token', res.data.token);
-        sessionStorage.setItem('author_id', res.data.id);
+        sessionStorage.setItem('author_id', res.data.userId);
         router.push('/post');
       }
     } catch (err) {

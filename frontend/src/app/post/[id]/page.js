@@ -16,7 +16,7 @@ export default function PostDetail({ params }) {
     const token = sessionStorage.getItem('token');
     if (token) setIsLogin(true);
     const fecthData = async () => {
-      const res = await axios.get(`http://localhost:1101/posts/${id}`);
+      const res = await axios.get(`http://localhost:1101/api/posts/${id}`);
 
       if (res.status == 200) {
         setCtn(res.data);
